@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/ann-kilzer/go-wordle/game"
 )
 
 func main() {
