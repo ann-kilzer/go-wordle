@@ -5,21 +5,21 @@ import (
 	"os"
 )
 
-var word = "BIRDS"
-
 const WORD_LENGTH = 5
 const ROUNDS = 6
 
 type Game struct {
+	word        string
 	reader      *bufio.Reader
 	usedLetters [26]bool
 	round       int
 	rounds      [ROUNDS]*Round
 }
 
-func NewGame() *Game {
+func NewGame(word string) *Game {
 	return &Game{
 		reader: bufio.NewReader(os.Stdin),
+		word:   word,
 	}
 }
 

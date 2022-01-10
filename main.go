@@ -10,6 +10,6 @@ func main() {
 	fmt.Println("WORDLE")
 	fmt.Println()
 
-	game := game.NewGame()
+	game := game.NewGame("BIRDS")
 	game.Play()
 }
