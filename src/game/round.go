@@ -36,7 +36,7 @@ func (g *Game) printLetters() {
 		case MATCH:
 			fmt.Printf("[%c]", i+UPPER_A)
 		case NO_MATCH:
-			fmt.Print("   ")
+			fmt.Print(" _ ")
 		}
 	}
 
