@@ -3,10 +3,24 @@ package main
 import (
 	"fmt"
 
+	"github.com/ann-kilzer/go-wordle/dictionary"
 	"github.com/ann-kilzer/go-wordle/game"
 )
 
 func main() {
+	printIntro()
+
+	dictionary, err := dictionary.Load()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	game := game.NewGame(dictionary.RandomWord())
+	game.Play()
+}
+
+func printIntro() {
 	fmt.Println("WORDLE")
 	fmt.Println()
 	fmt.Println("<x>: unused letter")
@@ -17,7 +31,4 @@ func main() {
 	fmt.Println("?x?: The letter X is in the word but in the wrong spot")
 	fmt.Println("|_|: the letter is not in the word in any spot")
 	fmt.Println()
-
-	game := game.NewGame("BIRDS")
-	game.Play()
 }
