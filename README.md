@@ -14,3 +14,7 @@ Run
 ``` sh
 ./go-wordle
 ```
+
+## Custom dictionaries
+
+You can edit the files under `src/data`. A dictionary file should contain 5 letter words, one on each line.
