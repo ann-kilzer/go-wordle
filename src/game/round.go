@@ -6,15 +6,16 @@ import (
 )
 
 const A = 65
-const EMPTY_GUESS = "     "
+const EMPTY_GUESS = "     " // 5 blank spaces
 
 type Round struct {
 	guess    string // user input
 	feedback string // the response to the user
 }
 
+// setGuess records the guess in the round as an uppercase string
 func (r *Round) setGuess(guess string) {
-	r.guess = guess
+	r.guess = strings.ToUpper(guess)
 }
 
 func (g *Game) currentRound() *Round {
@@ -38,16 +39,16 @@ func (g *Game) printLetters() {
 	fmt.Println()
 }
 
-// [ ] not found
-// ? ? wrong location
-// _ _ found
+// |_| not found
+// ?x? wrong location
+// [X] found
 func (g *Game) printRow() {
 	for i := 0; i < WORD_LENGTH; i++ {
 		letter := string(g.currentRound().guess[i])
 		if letter == string(g.word[i]) {
 			fmt.Printf("[%v]", letter)
 		} else if g.inWord(letter) {
-			fmt.Printf("?%v?", letter)
+			fmt.Printf("?%v?", strings.ToLower(letter))
 		} else {
 			fmt.Print("|_|")
 		}
@@ -67,7 +68,7 @@ func (g *Game) readGuess() (err error) {
 		if err != nil {
 			return err
 		}
-		guess = strings.ToUpper(strings.TrimSpace(guess))
+		guess = strings.TrimSpace(guess)
 
 		if len(guess) == WORD_LENGTH {
 			break
