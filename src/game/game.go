@@ -34,8 +34,10 @@ func (g *Game) isWin() bool {
 }
 
 func (g *Game) Play() error {
+	// print blanks for the 0th round
+	g.printRow()
+
 	for i := 0; i < ROUNDS; i++ {
-		g.printRow()
 		g.printLetters()
 
 		err := g.readGuess()
@@ -43,14 +45,12 @@ func (g *Game) Play() error {
 			return err
 		}
 
-		fmt.Println(g.currentRound().guess)
+		g.printRow()
 		if g.isWin() {
 			fmt.Println("Win!!!")
 			break
 			// todo
 		}
-
-		g.printRow()
 
 		g.round += 1
 

@@ -45,11 +45,11 @@ func (g *Game) printRow() {
 	for i := 0; i < WORD_LENGTH; i++ {
 		letter := string(g.currentRound().guess[i])
 		if letter == string(g.word[i]) {
-			fmt.Printf("_%v_", letter)
+			fmt.Printf("[%v]", letter)
 		} else if g.inWord(letter) {
 			fmt.Printf("?%v?", letter)
 		} else {
-			fmt.Print("[ ]")
+			fmt.Print("|_|")
 		}
 
 	}
