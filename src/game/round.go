@@ -2,6 +2,7 @@ package game
 
 import (
 	"fmt"
+	"strings"
 )
 
 const A = 65
@@ -58,6 +59,7 @@ func (g *Game) readGuess() (err error) {
 		if err != nil {
 			return err
 		}
+		guess = strings.TrimSpace(guess)
 
 		fmt.Println(guess)
 		fmt.Println(len(guess))
