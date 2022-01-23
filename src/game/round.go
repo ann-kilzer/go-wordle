@@ -6,6 +6,7 @@ import (
 )
 
 const A = 65
+const EMPTY_GUESS = "     "
 
 type Round struct {
 	guess    string // user input
@@ -18,7 +19,7 @@ func (r *Round) setGuess(guess string) {
 
 func (g *Game) currentRound() *Round {
 	if g.rounds[g.round] == nil {
-		g.rounds[g.round] = &Round{}
+		g.rounds[g.round] = &Round{guess: EMPTY_GUESS}
 	}
 	return g.rounds[g.round]
 }
@@ -37,13 +38,20 @@ func (g *Game) printLetters() {
 	fmt.Println()
 }
 
+// [ ] not found
+// ? ? wrong location
+// _ _ found
 func (g *Game) printRow() {
 	for i := 0; i < WORD_LENGTH; i++ {
-		fmt.Print("[ ]")
-		// TODO:
-		// [ ] not found
-		// [?] wrong location
-		// [*] found
+		letter := string(g.currentRound().guess[i])
+		if letter == string(g.word[i]) {
+			fmt.Printf("_%v_", letter)
+		} else if g.inWord(letter) {
+			fmt.Printf("?%v?", letter)
+		} else {
+			fmt.Print("[ ]")
+		}
+
 	}
 
 	fmt.Println()

@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 const WORD_LENGTH = 5
@@ -22,6 +23,10 @@ func NewGame(word string) *Game {
 		reader: bufio.NewReader(os.Stdin),
 		word:   word,
 	}
+}
+
+func (g *Game) inWord(letter string) bool {
+	return strings.Contains(g.word, letter)
 }
 
 func (g *Game) isWin() bool {
@@ -44,6 +49,8 @@ func (g *Game) Play() error {
 			break
 			// todo
 		}
+
+		g.printRow()
 
 		g.round += 1
 
