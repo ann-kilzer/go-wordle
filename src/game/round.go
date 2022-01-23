@@ -32,11 +32,11 @@ func (g *Game) printLetters() {
 	for i := 0; i < len(g.letterRecord); i++ {
 		switch g.letterRecord[i] {
 		case UNUSED:
-			fmt.Printf("_%c_", i+LOWER_A)
+			fmt.Printf("<%c>", i+LOWER_A)
 		case MATCH:
 			fmt.Printf("[%c]", i+UPPER_A)
 		case NO_MATCH:
-			fmt.Print("___")
+			fmt.Print("   ")
 		}
 	}
 
