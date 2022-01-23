@@ -2,6 +2,7 @@ package game
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 )
 
@@ -23,11 +24,30 @@ func NewGame(word string) *Game {
 	}
 }
 
-func (g *Game) Play() {
+func (g *Game) isWin() bool {
+	return g.currentRound().guess == g.word
+}
+
+func (g *Game) Play() error {
 	for i := 0; i < ROUNDS; i++ {
 		g.printRow()
 		g.printLetters()
-		g.readGuess()
+
+		err := g.readGuess()
+		if err != nil {
+			return err
+		}
+
+		fmt.Println(g.currentRound().guess)
+		if g.isWin() {
+			fmt.Println("Win!!!")
+			break
+			// todo
+		}
+
 		g.round += 1
+
 	}
+
+	return nil
 }

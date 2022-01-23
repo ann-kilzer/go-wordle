@@ -1,38 +1,39 @@
 package game
 
 import (
-	"bytes"
 	"fmt"
 )
 
 const A = 65
 
 type Round struct {
-	guess    []rune // user input
+	guess    string // user input
 	feedback string // the response to the user
 }
 
+func (r *Round) setGuess(guess string) {
+	r.guess = guess
+}
+
+func (g *Game) currentRound() *Round {
+	if g.rounds[g.round] == nil {
+		g.rounds[g.round] = &Round{}
+	}
+	return g.rounds[g.round]
+}
+
+// TODO: QWERTY order
 func (g *Game) printLetters() {
 	// TODO
 	for i := 0; i < len(g.usedLetters); i++ {
 		if g.usedLetters[i] {
-			fmt.Print("x")
+			fmt.Print("[ ]")
 		} else {
-			fmt.Printf("%c", i+A)
+			fmt.Printf("[%c]", i+A)
 		}
 	}
 
 	fmt.Println()
-}
-
-func (g *Game) readLetter() (rune, error) {
-	char, _, err := g.reader.ReadRune()
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	return char, err
 }
 
 func (g *Game) printRow() {
@@ -47,22 +48,26 @@ func (g *Game) printRow() {
 	fmt.Println()
 }
 
-func (g *Game) readGuess() error {
-	fmt.Print(">")
+func (g *Game) readGuess() (err error) {
+	var guess string
 
-	var b bytes.Buffer
+	for {
+		fmt.Print(">")
 
-	for i := 0; i < WORD_LENGTH; i++ {
-		r, err := g.readLetter()
+		guess, err = g.reader.ReadString('\n')
 		if err != nil {
 			return err
 		}
 
-		b.WriteRune(r)
+		fmt.Println(guess)
+		fmt.Println(len(guess))
+
+		if len(guess) == WORD_LENGTH {
+			break
+		}
 	}
 
-	fmt.Println(b.String())
-	// TODO save guess
+	g.currentRound().setGuess(guess)
 
 	return nil
 }
