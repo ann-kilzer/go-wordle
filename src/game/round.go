@@ -5,7 +5,8 @@ import (
 	"strings"
 )
 
-const A = 65
+const UPPER_A = 65
+const LOWER_A = 97
 const EMPTY_GUESS = "     " // 5 blank spaces
 
 type Round struct {
@@ -28,11 +29,14 @@ func (g *Game) currentRound() *Round {
 // TODO: QWERTY order
 func (g *Game) printLetters() {
 	// TODO
-	for i := 0; i < len(g.usedLetters); i++ {
-		if g.usedLetters[i] {
-			fmt.Print("[ ]")
-		} else {
-			fmt.Printf("[%c]", i+A)
+	for i := 0; i < len(g.letterRecord); i++ {
+		switch g.letterRecord[i] {
+		case UNUSED:
+			fmt.Printf("_%c_", i+LOWER_A)
+		case MATCH:
+			fmt.Printf("[%c]", i+UPPER_A)
+		case NO_MATCH:
+			fmt.Print("___")
 		}
 	}
 
