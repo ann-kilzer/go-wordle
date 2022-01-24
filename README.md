@@ -21,4 +21,4 @@ You can edit the files under `src/data`. A dictionary file should contain 5 lett
 
 ## Contributing
 
-See [Contributing.md](Contributing.md)
+See [CONTRIBUTING.md](CONTRIBUTING.md)
