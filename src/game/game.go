@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 )
 
 const WORD_LENGTH = 5
@@ -16,7 +15,7 @@ const NO_MATCH = 1
 const MATCH = 2
 
 type Game struct {
-	word         string
+	word         Word // the answer
 	reader       *bufio.Reader
 	letterRecord [26]int // track used and found letters
 	round        int
@@ -26,23 +25,22 @@ type Game struct {
 func NewGame(word string) *Game {
 	return &Game{
 		reader: bufio.NewReader(os.Stdin),
-		word:   word,
+		word:   Word{value: word},
 	}
 }
 
-func (g *Game) inWord(letter string) bool {
-	return strings.Contains(g.word, letter)
-}
-
 func (g *Game) isWin() bool {
-	return g.currentRound().guess == g.word
+	return g.word.isWin(g.currentRound().guess)
 }
 
+// todo: refactor this
 func (g *Game) markUsedLetters() {
 	for i := 0; i < WORD_LENGTH; i++ {
-		letter := string(g.currentRound().guess[i])
-		index := g.currentRound().guess[i] - UPPER_A
-		if g.inWord(letter) {
+		guess := g.currentRound().guess
+		index := guess[i] - UPPER_A // ascii index
+		if g.word.isGreen(guess, i) {
+			g.letterRecord[index] = MATCH
+		} else if g.word.isYellow(guess, i) {
 			g.letterRecord[index] = MATCH
 		} else {
 			g.letterRecord[index] = NO_MATCH
@@ -53,7 +51,7 @@ func (g *Game) markUsedLetters() {
 func (g *Game) Play() error {
 	// print blanks for the 0th round
 	g.printLetters()
-	g.printRow()
+	g.printResponse()
 
 	for i := 0; i < ROUNDS; i++ {
 		err := g.readGuess()
@@ -62,9 +60,9 @@ func (g *Game) Play() error {
 		}
 
 		g.markUsedLetters()
-
 		g.printLetters()
-		g.printRow()
+
+		g.printResponse()
 		if g.isWin() {
 			fmt.Println("Win!!!")
 			break

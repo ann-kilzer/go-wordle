@@ -46,17 +46,19 @@ func (g *Game) printLetters() {
 // |_| not found
 // ?x? wrong location
 // [X] found
-func (g *Game) printRow() {
-	for i := 0; i < WORD_LENGTH; i++ {
-		letter := string(g.currentRound().guess[i])
-		if letter == string(g.word[i]) {
+func (g *Game) printResponse() {
+	guess := g.currentRound().guess
+	output := g.word.evaluateGuess(guess)
+	for i := 0; i < len(output); i++ {
+		letter := string(guess[i])
+		switch output[i] {
+		case GREEN:
 			fmt.Printf("[%v]", letter)
-		} else if g.inWord(letter) {
+		case YELLOW:
 			fmt.Printf("?%v?", strings.ToLower(letter))
-		} else {
+		case BLACK:
 			fmt.Print("|_|")
 		}
-
 	}
 
 	fmt.Println()
