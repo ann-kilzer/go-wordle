@@ -12,7 +12,8 @@ func TestIsGreen(t *testing.T) {
 	}{
 		{name: "Green", word: "STEAM", letter: "A", position: 3, want: true},
 		{name: "Wrong location", word: "STEAM", letter: "A", position: 2, want: false},
-		// {name: "Out of bounds", word: "STEAM", letter: "A", position: -1, want: false},
+		{name: "Out of bounds (under)", word: "STEAM", letter: "A", position: -1, want: false},
+		{name: "Out of bounds (over)", word: "STEAM", letter: "A", position: 5, want: false},
 		{name: "Not found", word: "STEAM", letter: "Z", position: 0, want: false},
 	}
 

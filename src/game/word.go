@@ -49,13 +49,17 @@ func (w *Word) isWin(guess string) bool {
 	return guess == w.value
 }
 
+func validPosition(position int) bool {
+	return position >= 0 && position < WORD_LENGTH
+}
+
 // isGreen means the letter is in the word and in the correct position
 func (w *Word) isGreen(letter string, position int) bool {
-	return string(w.value[position]) == letter
+	return validPosition(position) && string(w.value[position]) == letter
 }
 
 // isYellow means the letter is in the word and in the incorrect position
 // TODO this implementation is wrong
 func (w *Word) isYellow(letter string, position int) bool {
-	return strings.Contains(w.value, letter)
+	return validPosition(position) && strings.Contains(w.value, letter)
 }
