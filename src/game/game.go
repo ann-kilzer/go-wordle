@@ -25,7 +25,7 @@ type Game struct {
 func NewGame(word string) *Game {
 	return &Game{
 		reader: bufio.NewReader(os.Stdin),
-		word:   Word{value: word},
+		word:   NewWord(word),
 	}
 }
 

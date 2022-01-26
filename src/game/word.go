@@ -13,6 +13,16 @@ type Word struct {
 	value string
 }
 
+func NewWord(word string) Word {
+	return Word{
+		value: word,
+	}
+}
+
+func (w Word) String() string {
+	return w.value
+}
+
 // evaluateGuess determines what the game response should be
 // based on evaluating the user's guess against the Word
 func (w *Word) evaluateGuess(guess string) []int {
