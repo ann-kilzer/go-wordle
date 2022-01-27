@@ -61,5 +61,8 @@ func (w *Word) isGreen(letter string, position int) bool {
 // isYellow means the letter is in the word and in the incorrect position
 // TODO this implementation is wrong
 func (w *Word) isYellow(letter string, position int) bool {
-	return validPosition(position) && strings.Contains(w.value, letter)
+	if !validPosition(position) {
+		return false
+	}
+	return strings.Contains(w.value, letter) && string(w.value[position]) != letter
 }
