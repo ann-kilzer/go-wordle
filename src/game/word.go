@@ -35,13 +35,18 @@ func (w *Word) evaluateGuess(guess string) []int {
 		letter := string(guess[i])
 		if w.isGreen(letter, i) {
 			res[i] = GREEN
-		} else if w.isYellow(letter, i) {
+		}
+	}
+
+	for i := 0; i < WORD_LENGTH; i++ {
+		letter := string(guess[i])
+		if w.isYellow(letter, i, res) {
 			res[i] = YELLOW
 		} else {
 			res[i] = BLACK
 		}
-
 	}
+
 	return res
 }
 
@@ -60,7 +65,7 @@ func (w *Word) isGreen(letter string, position int) bool {
 
 // isYellow means the letter is in the word and in the incorrect position
 // TODO this implementation is wrong
-func (w *Word) isYellow(letter string, position int) bool {
+func (w *Word) isYellow(letter string, position int, eval []int) bool {
 	if !validPosition(position) {
 		return false
 	}
