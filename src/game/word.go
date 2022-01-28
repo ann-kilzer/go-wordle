@@ -1,9 +1,5 @@
 package game
 
-import (
-	"strings"
-)
-
 const BLACK = 0
 const YELLOW = 1
 const GREEN = 2
@@ -63,11 +59,11 @@ func (w *Word) isGreen(letter string, position int) bool {
 	return validPosition(position) && string(w.value[position]) == letter
 }
 
-// indices returns all indices that contain letter
-func indices(s, letter string) []int {
+// yellowIndices returns all indices that don't contain letter
+func yellowIndices(s, letter string) []int {
 	res := make([]int, 0)
 	for i := 0; i < WORD_LENGTH; i++ {
-		if string(s[i]) == letter {
+		if string(s[i]) != letter {
 			res = append(res, i)
 		}
 	}
@@ -78,14 +74,20 @@ func indices(s, letter string) []int {
 // isYellow means the letter is in the word and in the incorrect position
 // TODO this implementation is wrong
 func (w *Word) isYellow(letter string, position int, eval []int) bool {
-	if !validPosition(position) || string(w.value[position]) == letter {
+	if !validPosition(position) || eval[position] == GREEN {
 		return false
 	}
 
-	first_index := strings.Index(w.value, letter)
-	if first_index == -1 || eval[first_index] == GREEN {
+	found := yellowIndices(w.value, letter)
+	if len(found) == 0 {
 		return false
 	}
 
-	return strings.Contains(w.value, letter)
+	for _, i := range found {
+		if eval[i] == GREEN {
+
+		}
+	}
+
+	return true
 }

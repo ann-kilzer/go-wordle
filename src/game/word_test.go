@@ -118,7 +118,7 @@ func TestIsYellow(t *testing.T) {
 	}
 }
 
-func TestIndices(t *testing.T) {
+func TestYellowIndices(t *testing.T) {
 	var tests = []struct {
 		name   string
 		word   string
@@ -129,45 +129,45 @@ func TestIndices(t *testing.T) {
 			name:   "no occurrences",
 			word:   "ABCDE",
 			letter: "Z",
-			want:   []int{},
+			want:   []int{0, 1, 2, 3, 4},
 		},
 		{
 			name:   "1 occurrence",
 			word:   "ABCDE",
 			letter: "A",
-			want:   []int{0},
+			want:   []int{1, 2, 3, 4},
 		},
 		{
 			name:   "2 occurrences",
 			word:   "ALOHA",
 			letter: "A",
-			want:   []int{0, 4},
+			want:   []int{1, 2, 3},
 		},
 		{
 			name:   "3 occurrences",
 			word:   "MOMMA",
 			letter: "M",
-			want:   []int{0, 2, 3},
+			want:   []int{1, 4},
 		},
 		{
 			name:   "4 occurrences",
 			word:   "ABAAA",
 			letter: "A",
-			want:   []int{0, 2, 3, 4},
+			want:   []int{1},
 		},
 		{
 			name:   "5 occurrences",
 			word:   "AAAAA",
 			letter: "A",
-			want:   []int{0, 1, 2, 3, 4},
+			want:   []int{},
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := indices(tt.word, tt.letter)
+			got := yellowIndices(tt.word, tt.letter)
 			if len(got) != len(tt.want) {
-				t.Errorf("indices(%s,%s) got %v, want %v", tt.word, tt.letter, got, tt.want)
+				t.Errorf("yellowIndices(%s,%s) got %v, want %v", tt.word, tt.letter, got, tt.want)
 			}
 			// TODO slice compare
 		})
