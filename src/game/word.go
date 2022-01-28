@@ -63,14 +63,12 @@ func (w *Word) isGreen(letter string, position int) bool {
 	return validPosition(position) && string(w.value[position]) == letter
 }
 
-// indices returns all indices that contain letter l
-func indices(s, l string) []int {
+// indices returns all indices that contain letter
+func indices(s, letter string) []int {
 	res := make([]int, 0)
 	for i := 0; i < WORD_LENGTH; i++ {
-		letter := string(s[i])
-		if l == letter {
+		if string(s[i]) == letter {
 			res = append(res, i)
-			// fmt.Println("✨", i, l)
 		}
 	}
 
