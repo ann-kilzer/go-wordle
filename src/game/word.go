@@ -63,11 +63,31 @@ func (w *Word) isGreen(letter string, position int) bool {
 	return validPosition(position) && string(w.value[position]) == letter
 }
 
+// indices returns all indices that contain letter l
+func indices(s, l string) []int {
+	res := make([]int, 0)
+	for i := 0; i < WORD_LENGTH; i++ {
+		letter := string(s[i])
+		if l == letter {
+			res = append(res, i)
+			// fmt.Println("✨", i, l)
+		}
+	}
+
+	return res
+}
+
 // isYellow means the letter is in the word and in the incorrect position
 // TODO this implementation is wrong
 func (w *Word) isYellow(letter string, position int, eval []int) bool {
-	if !validPosition(position) {
+	if !validPosition(position) || string(w.value[position]) == letter {
 		return false
 	}
-	return strings.Contains(w.value, letter) && string(w.value[position]) != letter
+
+	first_index := strings.Index(w.value, letter)
+	if first_index == -1 || eval[first_index] == GREEN {
+		return false
+	}
+
+	return strings.Contains(w.value, letter)
 }
