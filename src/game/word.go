@@ -1,5 +1,7 @@
 package game
 
+import "strings"
+
 const BLACK = 0
 const YELLOW = 1
 const GREEN = 2
@@ -36,7 +38,7 @@ func (w *Word) evaluateGuess(guess string) []int {
 
 	for i := 0; i < WORD_LENGTH; i++ {
 		letter := string(guess[i])
-		if w.isYellow(letter, i, res) {
+		if w.isYellow(letter, i, guess) {
 			res[i] = YELLOW
 		} else {
 			res[i] = BLACK
@@ -59,11 +61,11 @@ func (w *Word) isGreen(letter string, position int) bool {
 	return validPosition(position) && string(w.value[position]) == letter
 }
 
-// yellowIndices returns all indices that don't contain letter
-func yellowIndices(s, letter string) []int {
+// yellowIndices returns all potential
+func yellowIndices(word, guess, letter string) []int {
 	res := make([]int, 0)
 	for i := 0; i < WORD_LENGTH; i++ {
-		if string(s[i]) != letter {
+		if string(word[i]) != letter && string(guess[i]) == letter {
 			res = append(res, i)
 		}
 	}
@@ -71,23 +73,35 @@ func yellowIndices(s, letter string) []int {
 	return res
 }
 
+func numGreenForLetter(guess, letter string) int {
+	num := 0
+	for i := 0; i < WORD_LENGTH; i++ {
+		if string(guess[i]) == letter {
+			num += 1
+		}
+	}
+	return num
+}
+
 // isYellow means the letter is in the word and in the incorrect position
 // TODO this implementation is wrong
-func (w *Word) isYellow(letter string, position int, eval []int) bool {
-	if !validPosition(position) || eval[position] == GREEN {
+func (w *Word) isYellow(letter string, position int, guess string) bool {
+	if !validPosition(position) || string(w.value[position]) == letter {
 		return false
 	}
 
-	found := yellowIndices(w.value, letter)
-	if len(found) == 0 {
+	budget := strings.Count(w.value, letter) - numGreenForLetter(guess, letter)
+	possibleYellow := yellowIndices(w.value, guess, letter)
+	if len(possibleYellow) == 0 {
 		return false
 	}
 
-	for _, i := range found {
-		if eval[i] == GREEN {
-
+	// todo: calculate the letter budget then loop through the yellows
+	for i := 0; i < budget; i++ {
+		if possibleYellow[i] == position {
+			return true
 		}
 	}
 
-	return true
+	return false
 }
