@@ -1,6 +1,9 @@
 package game
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 const BLACK = 0
 const YELLOW = 1
@@ -73,10 +76,11 @@ func yellowIndices(word, guess, letter string) []int {
 	return res
 }
 
-func numGreenForLetter(guess, letter string) int {
+// numGreenForLetter returns the number of green squares for the letter
+func numGreenForLetter(word, guess, letter string) int {
 	num := 0
 	for i := 0; i < WORD_LENGTH; i++ {
-		if string(guess[i]) == letter {
+		if string(guess[i]) == letter && string(word[i]) == letter {
 			num += 1
 		}
 	}
@@ -89,14 +93,16 @@ func (w *Word) isYellow(letter string, position int, guess string) bool {
 		return false
 	}
 
-	budget := strings.Count(w.value, letter) - numGreenForLetter(guess, letter)
+	budget := strings.Count(w.value, letter) - numGreenForLetter(w.value, guess, letter)
+
+	fmt.Println("⏱️budget ", budget)
 	possibleYellow := yellowIndices(w.value, guess, letter)
 	if len(possibleYellow) == 0 {
 		return false
 	}
 
 	// todo: calculate the letter budget then loop through the yellows
-	for i := 0; i < budget; i++ {
+	for i := 0; i < budget && i < len(possibleYellow); i++ {
 		if possibleYellow[i] == position {
 			return true
 		}
