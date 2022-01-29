@@ -10,13 +10,18 @@ const LOWER_A = 97
 const EMPTY_GUESS = "     " // 5 blank spaces
 
 type Round struct {
-	guess    string // user input
-	feedback string // the response to the user
+	guess string // user input
+	eval  []int  // the evaluation of the guess
 }
 
 // setGuess records the guess in the round as an uppercase string
 func (r *Round) setGuess(guess string) {
 	r.guess = strings.ToUpper(guess)
+}
+
+// setEval records the evaluation in the round
+func (r *Round) setEval(eval []int) {
+	r.eval = eval
 }
 
 func (g *Game) currentRound() *Round {
@@ -48,10 +53,11 @@ func (g *Game) printLetters() {
 // [X] found
 func (g *Game) printResponse() {
 	guess := g.currentRound().guess
-	output := g.word.evaluateGuess(guess)
-	for i := 0; i < len(output); i++ {
+	eval := g.word.evaluateGuess(guess)
+	g.currentRound().setEval(eval)
+	for i := 0; i < len(eval); i++ {
 		letter := string(guess[i])
-		switch output[i] {
+		switch eval[i] {
 		case GREEN:
 			fmt.Printf("[%v]", letter)
 		case YELLOW:

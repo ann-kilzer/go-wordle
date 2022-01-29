@@ -37,15 +37,18 @@ func (g *Game) isWin() bool {
 	return g.word.isWin(g.currentRound().guess)
 }
 
-// todo: refactor this to use the evaluation
+// markUsedLetters updates which letters have been used on the letterRecord "keyboard"
 func (g *Game) markUsedLetters() {
-	for i := 0; i < WORD_LENGTH; i++ {
-		guess := g.currentRound().guess
-		letter := string(guess[i])
-		index := guess[i] - UPPER_A // ascii index
-		if g.word.isGreen(guess, i) {
+	guess := g.currentRound().guess
+	eval := g.currentRound().eval
+	for i := 0; i < len(eval); i++ {
+		index := guess[i] - UPPER_A        // ascii index
+		if g.letterRecord[index] > BLACK { // already yellow or green
+			continue
+		}
+		if eval[i] == GREEN {
 			g.letterRecord[index] = MATCH
-		} else if g.word.isYellow(letter, i, guess) {
+		} else if eval[i] == YELLOW {
 			g.letterRecord[index] = MATCH
 		} else {
 			g.letterRecord[index] = NO_MATCH
