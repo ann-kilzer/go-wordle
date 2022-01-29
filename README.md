@@ -19,6 +19,8 @@ Run
 
 You can edit the files under `src/data`. A dictionary file should contain 5 letter words, one on each line.
 
+Word list from https://github.com/hannahcode/wordle
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)
