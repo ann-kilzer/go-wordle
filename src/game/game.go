@@ -37,11 +37,12 @@ func (g *Game) isWin() bool {
 func (g *Game) markUsedLetters() {
 	for i := 0; i < WORD_LENGTH; i++ {
 		guess := g.currentRound().guess
+		letter := string(guess[i])
 		index := guess[i] - UPPER_A // ascii index
 		if g.word.isGreen(guess, i) {
 			g.letterRecord[index] = MATCH
-			/*} else if g.word.isYellow(guess, i) {
-			g.letterRecord[index] = MATCH */
+		} else if g.word.isYellow(letter, i, guess) {
+			g.letterRecord[index] = MATCH
 		} else {
 			g.letterRecord[index] = NO_MATCH
 		}
@@ -65,13 +66,13 @@ func (g *Game) Play() error {
 		g.printResponse()
 		if g.isWin() {
 			fmt.Println("Win!!!")
-			break
-			// todo
+			return nil
 		}
 
 		g.round += 1
-
 	}
+
+	fmt.Println("Sorry! The word was ", g.word)
 
 	return nil
 }

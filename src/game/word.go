@@ -1,7 +1,6 @@
 package game
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -36,6 +35,8 @@ func (w *Word) evaluateGuess(guess string) []int {
 		letter := string(guess[i])
 		if w.isGreen(letter, i) {
 			res[i] = GREEN
+		} else {
+			res[i] = BLACK
 		}
 	}
 
@@ -43,8 +44,6 @@ func (w *Word) evaluateGuess(guess string) []int {
 		letter := string(guess[i])
 		if w.isYellow(letter, i, guess) {
 			res[i] = YELLOW
-		} else {
-			res[i] = BLACK
 		}
 	}
 
@@ -95,7 +94,6 @@ func (w *Word) isYellow(letter string, position int, guess string) bool {
 
 	budget := strings.Count(w.value, letter) - numGreenForLetter(w.value, guess, letter)
 
-	fmt.Println("⏱️budget ", budget)
 	possibleYellow := yellowIndices(w.value, guess, letter)
 	if len(possibleYellow) == 0 {
 		return false

@@ -109,6 +109,14 @@ func TestIsYellow(t *testing.T) {
 			guess:    "MAGMA",
 			want:     false,
 		},
+		{
+			name:     "Sample 1",
+			word:     "PANIC",
+			letter:   "A",
+			position: 1,
+			guess:    "BALMY",
+			want:     false,
+		},
 	}
 
 	for _, tt := range tests {
