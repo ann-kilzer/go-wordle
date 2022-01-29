@@ -10,16 +10,24 @@ type ValidGuesses struct {
 }
 
 func LoadValidGuesses() (*ValidGuesses, error) {
-	wlist, err := readWords("data/wordlist.txt")
+	wl, err := readWords("data/wordlist.txt")
+	if err != nil {
+		return nil, err
+	}
+	vg, err := readWords("data/validGuesses.txt")
 	if err != nil {
 		return nil, err
 	}
 
 	v := &ValidGuesses{
-		words: make(map[string]bool, len(wlist)),
+		words: make(map[string]bool, len(wl)+len(vg)),
 	}
 
-	for _, w := range wlist {
+	for _, w := range wl {
+		v.words[strings.ToUpper(w)] = true
+	}
+
+	for _, w := range vg {
 		v.words[strings.ToUpper(w)] = true
 	}
 
