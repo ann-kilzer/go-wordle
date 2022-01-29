@@ -15,7 +15,7 @@ type Word struct {
 
 func NewWord(word string) Word {
 	return Word{
-		value: word,
+		value: strings.ToUpper(word),
 	}
 }
 
