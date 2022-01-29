@@ -22,7 +22,7 @@ func Load() (*Dictionary, error) {
 	rand.Seed(time.Now().UnixNano())
 	d := &Dictionary{}
 
-	file, err := os.Open("data/historic.txt")
+	file, err := os.Open("data/wordlist.txt")
 	if err != nil {
 		return nil, err
 	}
