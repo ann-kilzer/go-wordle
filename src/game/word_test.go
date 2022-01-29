@@ -169,7 +169,11 @@ func TestYellowIndices(t *testing.T) {
 			if len(got) != len(tt.want) {
 				t.Errorf("yellowIndices(%s,%s) got %v, want %v", tt.word, tt.letter, got, tt.want)
 			}
-			// TODO slice compare
+			for i := 0; i < len(got); i++ {
+				if got[i] != tt.want[i] {
+					t.Errorf("yellowIndices(%s,%s) got %v, want %v", tt.word, tt.letter, got, tt.want)
+				}
+			}
 		})
 	}
 

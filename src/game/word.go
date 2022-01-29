@@ -84,7 +84,6 @@ func numGreenForLetter(guess, letter string) int {
 }
 
 // isYellow means the letter is in the word and in the incorrect position
-// TODO this implementation is wrong
 func (w *Word) isYellow(letter string, position int, guess string) bool {
 	if !validPosition(position) || string(w.value[position]) == letter {
 		return false
