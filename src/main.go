@@ -10,13 +10,19 @@ import (
 func main() {
 	printIntro()
 
-	dictionary, err := dictionary.Load()
+	validGuesses, err := dictionary.LoadValidGuesses()
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	game := game.NewGame(dictionary.RandomWord())
+	dictionary, err := dictionary.LoadDictionary()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	game := game.NewGame(dictionary.RandomWord(), validGuesses)
 	game.Play()
 }
 

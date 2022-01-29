@@ -2,7 +2,6 @@ package dictionary
 
 import (
 	"bufio"
-	"fmt"
 	"math/rand"
 	"os"
 	"strings"
@@ -13,29 +12,40 @@ type Dictionary struct {
 	words []string
 }
 
+// RandomWord returns a random word from the wordlist dictionary
 func (d *Dictionary) RandomWord() string {
 	idx := rand.Intn(len(d.words))
 	return d.words[idx]
 }
 
-func Load() (*Dictionary, error) {
-	rand.Seed(time.Now().UnixNano())
-	d := &Dictionary{}
-
-	file, err := os.Open("data/wordlist.txt")
+func readWords(filename string) ([]string, error) {
+	words := make([]string, 0)
+	file, err := os.Open(filename)
 	if err != nil {
-		return nil, err
+		return words, err
 	}
-
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		d.words = append(d.words, strings.TrimSpace(scanner.Text()))
+		words = append(words, strings.TrimSpace(scanner.Text()))
 	}
 
 	if err := scanner.Err(); err != nil {
-		fmt.Println(err)
+		return words, err
+	}
+
+	return words, nil
+}
+
+func LoadDictionary() (*Dictionary, error) {
+	rand.Seed(time.Now().UnixNano())
+	d := &Dictionary{}
+
+	var err error
+	d.words, err = readWords("data/wordlist.txt")
+	if err != nil {
+		return nil, err
 	}
 
 	return d, nil

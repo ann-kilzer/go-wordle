@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+
+	"github.com/ann-kilzer/go-wordle/dictionary"
 )
 
 const WORD_LENGTH = 5
@@ -20,12 +22,14 @@ type Game struct {
 	letterRecord [26]int // track used and found letters
 	round        int
 	rounds       [ROUNDS]*Round
+	validGuesses *dictionary.ValidGuesses
 }
 
-func NewGame(word string) *Game {
+func NewGame(word string, validGuesses *dictionary.ValidGuesses) *Game {
 	return &Game{
-		reader: bufio.NewReader(os.Stdin),
-		word:   NewWord(word),
+		reader:       bufio.NewReader(os.Stdin),
+		word:         NewWord(word),
+		validGuesses: validGuesses,
 	}
 }
 
