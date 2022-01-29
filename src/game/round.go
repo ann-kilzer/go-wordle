@@ -74,12 +74,14 @@ func (g *Game) readGuess() (err error) {
 		if err != nil {
 			return err
 		}
-		guess = strings.TrimSpace(guess)
+		guess = strings.ToUpper(strings.TrimSpace(guess))
 
-		if len(guess) == WORD_LENGTH {
+		if len(guess) != WORD_LENGTH {
+			fmt.Printf("Invalid length. Please enter %v letters\n", WORD_LENGTH)
+		} else if g.validGuesses.Contains(guess) {
 			break
 		} else {
-			fmt.Printf("Invalid length. Please enter %v letters\n", WORD_LENGTH)
+			fmt.Println("Invalid word")
 		}
 	}
 

@@ -99,7 +99,6 @@ func (w *Word) isYellow(letter string, position int, guess string) bool {
 		return false
 	}
 
-	// todo: calculate the letter budget then loop through the yellows
 	for i := 0; i < budget && i < len(possibleYellow); i++ {
 		if possibleYellow[i] == position {
 			return true

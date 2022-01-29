@@ -1,5 +1,7 @@
 package dictionary
 
+import "strings"
+
 // V0: use a map
 // TODO; Update with a Trie to save memory
 
@@ -18,12 +20,12 @@ func LoadValidGuesses() (*ValidGuesses, error) {
 	}
 
 	for _, w := range wlist {
-		v.words[w] = true
+		v.words[strings.ToUpper(w)] = true
 	}
 
 	return v, nil
 }
 
-func (v *ValidGuesses) isValid(guess string) bool {
+func (v *ValidGuesses) Contains(guess string) bool {
 	return v.words[guess]
 }
