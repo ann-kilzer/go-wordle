@@ -56,7 +56,12 @@ func (g *Game) Play() error {
 	g.printResponse()
 
 	for i := 0; i < ROUNDS; i++ {
-		err := g.readGuess()
+		err := g.readGuess(i+1, ROUNDS)
+		if err != nil {
+			return err
+		}
+
+		err = g.evaluateRound()
 		if err != nil {
 			return err
 		}

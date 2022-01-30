@@ -40,8 +40,7 @@ func (g *Game) printLetters() {
 // [X] found
 func (g *Game) printResponse() {
 	guess := g.currentRound().guess
-	eval := g.word.evaluateGuess(guess)
-	g.currentRound().setEval(eval)
+	eval := g.currentRound().eval
 	for i := 0; i < len(eval); i++ {
 		letter := string(guess[i])
 		switch eval[i] {
@@ -57,11 +56,11 @@ func (g *Game) printResponse() {
 	fmt.Println()
 }
 
-func (g *Game) readGuess() (err error) {
+func (g *Game) readGuess(r, rounds int) (err error) {
 	var guess string
 
 	for {
-		fmt.Print(">")
+		fmt.Printf("%d/%d\n>", r, rounds)
 
 		guess, err = g.reader.ReadString('\n')
 		if err != nil {
@@ -80,5 +79,17 @@ func (g *Game) readGuess() (err error) {
 
 	g.currentRound().setGuess(guess)
 
+	return nil
+}
+
+// evaluateRound must be called after the guess is read
+func (g *Game) evaluateRound() error {
+	// evaluate the guess
+	eval, err := g.word.evaluateGuess(g.currentRound().guess)
+	if err != nil {
+		return err
+	}
+
+	g.currentRound().setEval(eval)
 	return nil
 }

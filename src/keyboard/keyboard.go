@@ -1,7 +1,6 @@
 package keyboard
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -37,7 +36,6 @@ func NewKeyboard() *Keyboard {
 }
 
 func (k *Keyboard) MarkMatch(letter byte) {
-	fmt.Printf("MATCH: %c\n", letter)
 	if letter < UPPER_A || letter > UPPER_Z {
 		return
 	}
@@ -48,7 +46,6 @@ func (k *Keyboard) MarkMatch(letter byte) {
 }
 
 func (k *Keyboard) MarkNoMatch(letter byte) {
-	fmt.Printf("NO MATCH: %c\n", letter)
 	if letter < UPPER_A || letter > UPPER_Z {
 		return
 	}

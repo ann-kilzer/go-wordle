@@ -1,6 +1,7 @@
 package game
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -26,11 +27,10 @@ func (w Word) String() string {
 
 // evaluateGuess determines what the game response should be
 // based on evaluating the user's guess against the Word
-func (w *Word) evaluateGuess(guess string) [WORD_LENGTH]int {
+func (w *Word) evaluateGuess(guess string) ([WORD_LENGTH]int, error) {
 	var res [WORD_LENGTH]int
 	if len(guess) < WORD_LENGTH {
-		// todo: return an error
-		return res
+		return res, fmt.Errorf("Invalid guess of length %d, expected %d", len(guess), WORD_LENGTH)
 	}
 
 	for i := 0; i < WORD_LENGTH; i++ {
@@ -44,7 +44,7 @@ func (w *Word) evaluateGuess(guess string) [WORD_LENGTH]int {
 		}
 	}
 
-	return res
+	return res, nil
 }
 
 func (w *Word) isWin(guess string) bool {
