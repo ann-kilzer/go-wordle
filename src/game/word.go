@@ -26,9 +26,10 @@ func (w Word) String() string {
 
 // evaluateGuess determines what the game response should be
 // based on evaluating the user's guess against the Word
-func (w *Word) evaluateGuess(guess string) []int {
-	res := make([]int, WORD_LENGTH)
+func (w *Word) evaluateGuess(guess string) [WORD_LENGTH]int {
+	var res [WORD_LENGTH]int
 	if len(guess) < WORD_LENGTH {
+		// todo: return an error
 		return res
 	}
 
@@ -36,15 +37,10 @@ func (w *Word) evaluateGuess(guess string) []int {
 		letter := string(guess[i])
 		if w.isGreen(letter, i) {
 			res[i] = GREEN
+		} else if w.isYellow(letter, i, guess) {
+			res[i] = YELLOW
 		} else {
 			res[i] = BLACK
-		}
-	}
-
-	for i := 0; i < WORD_LENGTH; i++ {
-		letter := string(guess[i])
-		if w.isYellow(letter, i, guess) {
-			res[i] = YELLOW
 		}
 	}
 

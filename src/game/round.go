@@ -10,8 +10,8 @@ const LOWER_A = 97
 const EMPTY_GUESS = "     " // 5 blank spaces
 
 type Round struct {
-	guess string // user input
-	eval  []int  // the evaluation of the guess
+	guess string           // user input
+	eval  [WORD_LENGTH]int // the evaluation of the guess
 }
 
 // setGuess records the guess in the round as an uppercase string
@@ -20,7 +20,7 @@ func (r *Round) setGuess(guess string) {
 }
 
 // setEval records the evaluation in the round
-func (r *Round) setEval(eval []int) {
+func (r *Round) setEval(eval [WORD_LENGTH]int) {
 	r.eval = eval
 }
 

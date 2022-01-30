@@ -38,13 +38,14 @@ func (g *Game) isWin() bool {
 func (g *Game) markUsedLetters() {
 	guess := g.currentRound().guess
 	eval := g.currentRound().eval
-	for i := 0; i < len(eval); i++ {
+	for i := 0; i < WORD_LENGTH; i++ {
+		letterByte := guess[i]
 		if eval[i] == GREEN {
-			g.keyboard.MarkMatch(guess[i])
+			g.keyboard.MarkMatch(letterByte)
 		} else if eval[i] == YELLOW {
-			g.keyboard.MarkMatch(guess[i])
+			g.keyboard.MarkMatch(letterByte)
 		} else {
-			g.keyboard.MarkNoMatch(guess[i])
+			g.keyboard.MarkNoMatch(letterByte)
 		}
 	}
 }
