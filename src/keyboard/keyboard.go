@@ -8,11 +8,6 @@ import (
 const UPPER_A = 65
 const LOWER_A = 97
 
-// "color"
-const BLACK = 0
-const YELLOW = 1
-const GREEN = 2
-
 // style
 const UPPERCASE = 0
 const LOWERCASE = 1
@@ -44,20 +39,39 @@ func NewCharacterPadding(l, r rune) *CharacterPadding {
 	}
 }
 
+// for letterRecord
+const UNUSED = 0
+const NO_MATCH = 1
+const MATCH = 2
+
 // Keyboard tracks used and found letters, and
 type Keyboard struct {
-	letterRecord  [26]int // track used and found letters
-	greenPadding  *CharacterPadding
-	yellowPadding *CharacterPadding
-	blackPadding  *CharacterPadding
+	letterRecord   [26]int // track used and found letters
+	matchPadding   *CharacterPadding
+	noMatchPadding *CharacterPadding
+	unusedPadding  *CharacterPadding
 }
 
 // todo: allow custom paddings
 func NewKeyboard() *Keyboard {
 	return &Keyboard{
-		greenPadding:  NewCharacterPadding('[', ']'),
-		yellowPadding: NewCharacterPadding('(', ')'),
-		blackPadding:  NewCharacterPadding('<', '>'),
+		matchPadding:   NewCharacterPadding('[', ']'),
+		noMatchPadding: NewCharacterPadding(' ', ' '),
+		unusedPadding:  NewCharacterPadding('<', '>'),
+	}
+}
+
+func (k *Keyboard) MarkMatch(letter byte) {
+	index := letter - UPPER_A
+	if k.letterRecord[index] == UNUSED { // already marked
+		k.letterRecord[index] = MATCH
+	}
+}
+
+func (k *Keyboard) MarkNoMatch(letter byte) {
+	index := letter - UPPER_A
+	if k.letterRecord[index] == UNUSED { // already marked
+		k.letterRecord[index] = NO_MATCH
 	}
 }
 
@@ -71,12 +85,12 @@ func (k *Keyboard) String() string {
 			fmt.Printf("%b", alphaIndex)
 
 			switch k.letterRecord[alphaIndex] {
-			case BLACK:
-				sb.WriteString(k.blackPadding.Format(letter))
-			case YELLOW:
-				sb.WriteString(k.yellowPadding.Format(letter))
-			case GREEN:
-				sb.WriteString(k.greenPadding.Format(letter))
+			case UNUSED:
+				sb.WriteString(k.unusedPadding.Format(letter))
+			case NO_MATCH:
+				sb.WriteString(k.noMatchPadding.Format(" "))
+			case MATCH:
+				sb.WriteString(k.matchPadding.Format(letter))
 			}
 		}
 		sb.WriteString("\n")

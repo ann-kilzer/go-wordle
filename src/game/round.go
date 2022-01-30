@@ -31,21 +31,8 @@ func (g *Game) currentRound() *Round {
 	return g.rounds[g.round]
 }
 
-// TODO: QWERTY order
 func (g *Game) printLetters() {
-	// TODO
-	for i := 0; i < len(g.letterRecord); i++ {
-		switch g.letterRecord[i] {
-		case UNUSED:
-			fmt.Printf("<%c>", i+LOWER_A)
-		case MATCH:
-			fmt.Printf("[%c]", i+UPPER_A)
-		case NO_MATCH:
-			fmt.Print(" _ ")
-		}
-	}
-
-	fmt.Println()
+	fmt.Println(g.keyboard)
 }
 
 // |_| not found

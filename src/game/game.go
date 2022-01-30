@@ -6,20 +6,16 @@ import (
 	"os"
 
 	"github.com/ann-kilzer/go-wordle/dictionary"
+	"github.com/ann-kilzer/go-wordle/keyboard"
 )
 
 const WORD_LENGTH = 5
 const ROUNDS = 6
 
-// for letterRecord
-const UNUSED = 0
-const NO_MATCH = 1
-const MATCH = 2
-
 type Game struct {
 	word         Word // the answer
 	reader       *bufio.Reader
-	letterRecord [26]int // track used and found letters
+	keyboard     *keyboard.Keyboard
 	round        int
 	rounds       [ROUNDS]*Round
 	validGuesses *dictionary.ValidGuesses
@@ -42,16 +38,12 @@ func (g *Game) markUsedLetters() {
 	guess := g.currentRound().guess
 	eval := g.currentRound().eval
 	for i := 0; i < len(eval); i++ {
-		index := guess[i] - UPPER_A        // ascii index
-		if g.letterRecord[index] > BLACK { // already yellow or green
-			continue
-		}
 		if eval[i] == GREEN {
-			g.letterRecord[index] = MATCH
+			g.keyboard.MarkMatch(guess[i])
 		} else if eval[i] == YELLOW {
-			g.letterRecord[index] = MATCH
+			g.keyboard.MarkMatch(guess[i])
 		} else {
-			g.letterRecord[index] = NO_MATCH
+			g.keyboard.MarkNoMatch(guess[i])
 		}
 	}
 }
