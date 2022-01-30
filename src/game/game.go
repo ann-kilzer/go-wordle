@@ -26,6 +26,7 @@ func NewGame(word string, validGuesses *dictionary.ValidGuesses) *Game {
 		reader:       bufio.NewReader(os.Stdin),
 		word:         NewWord(word),
 		validGuesses: validGuesses,
+		keyboard:     keyboard.NewKeyboard(),
 	}
 }
 
