@@ -5,7 +5,6 @@ import (
 	"strings"
 )
 
-// TODO: move these to a shared location
 const BLACK = 0
 const YELLOW = 1
 const GREEN = 2
