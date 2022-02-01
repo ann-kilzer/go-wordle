@@ -1,12 +1,13 @@
 package dictionary
 
-import "strings"
+import (
+	"strings"
 
-// V0: use a map
-// TODO; Update with a Trie to save memory
+	"github.com/ann-kilzer/go-wordle/trie"
+)
 
 type ValidGuesses struct {
-	words map[string]bool
+	words *trie.Trie
 }
 
 func LoadValidGuesses() (*ValidGuesses, error) {
@@ -20,20 +21,20 @@ func LoadValidGuesses() (*ValidGuesses, error) {
 	}
 
 	v := &ValidGuesses{
-		words: make(map[string]bool, len(wl)+len(vg)),
+		words: trie.NewTrie(),
 	}
 
 	for _, w := range wl {
-		v.words[strings.ToUpper(w)] = true
+		v.words.Insert(strings.ToUpper(w))
 	}
 
 	for _, w := range vg {
-		v.words[strings.ToUpper(w)] = true
+		v.words.Insert(strings.ToUpper(w))
 	}
 
 	return v, nil
 }
 
 func (v *ValidGuesses) Contains(guess string) bool {
-	return v.words[guess]
+	return v.words.HasWord(guess)
 }
