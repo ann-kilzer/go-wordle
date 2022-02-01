@@ -5,7 +5,6 @@ import (
 )
 
 const UPPER_A = 65
-
 const ALPHABET_LEN = 26
 const START_CHAR = '*'
 
@@ -16,21 +15,39 @@ type Node struct {
 	next    [ALPHABET_LEN]*Node
 }
 
-type Trie struct {
-	root *Node
-}
-
-func NewTrie() *Trie {
-	return &Trie{
-		root: &Node{
-			wordEnd: false,
-		},
+func newRootNode() *Node {
+	return &Node{
+		letter:  START_CHAR,
+		wordEnd: false,
 	}
 }
 
-// Insert adds the word to the trie
+type Trie struct {
+	root  *Node
+	count int
+}
 
+// NewTrie creates a new trie
+func NewTrie() *Trie {
+	return &Trie{
+		root: newRootNode(),
+	}
+}
+
+// Length is the number of words in the Trie
+func (t *Trie) Length() int {
+	return t.count
+}
+
+// Insert adds the word to the trie
 func (t *Trie) Insert(word string) {
+	if t.root == nil {
+		t.root = newRootNode()
+	}
+	if len(word) == 0 {
+		return
+	}
+
 	w := strings.ToUpper(word)
 	var prev *Node
 	cur := t.root
@@ -43,9 +60,14 @@ func (t *Trie) Insert(word string) {
 		prev = cur
 		cur = cur.next[index]
 	}
-	prev.wordEnd = true
+	// mark the wordEnd and increment count
+	if !prev.wordEnd {
+		prev.wordEnd = true
+		t.count += 1
+	}
 }
 
+// HasWord checks if the word exists in the Trie
 func (t *Trie) HasWord(word string) bool {
 	w := strings.ToUpper(word)
 	var prev *Node
@@ -60,5 +82,5 @@ func (t *Trie) HasWord(word string) bool {
 		cur = cur.next[index]
 	}
 
-	return prev != nil && prev.wordEnd 
+	return prev != nil && prev.wordEnd
 }
