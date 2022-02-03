@@ -1,13 +1,17 @@
 package round
 
-import "strings"
+import (
+	"strings"
+
+	"github.com/ann-kilzer/go-wordle/common"
+)
 
 const WORD_LENGTH = 5
 const EMPTY_GUESS = "     " // 5 blank spaces
 
 type Round struct {
-	Guess string           // user input
-	Eval  [WORD_LENGTH]int // the evaluation of the guess
+	Guess string            // user input
+	Eval  common.Evaluation // the evaluation of the guess
 }
 
 func NewRound() *Round {

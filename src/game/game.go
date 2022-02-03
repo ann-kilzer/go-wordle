@@ -5,49 +5,41 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/ann-kilzer/go-wordle/common"
 	"github.com/ann-kilzer/go-wordle/dictionary"
+	"github.com/ann-kilzer/go-wordle/game/answer"
+	"github.com/ann-kilzer/go-wordle/game/round"
 	"github.com/ann-kilzer/go-wordle/keyboard"
-	"github.com/ann-kilzer/go-wordle/round"
 )
 
-const ROUNDS = 6
-
 type Game struct {
-	word         Word // the answer
+	word         answer.Word // the answer
 	reader       *bufio.Reader
 	keyboard     *keyboard.Keyboard
 	round        int
-	rounds       [ROUNDS]*round.Round
+	rounds       [common.ROUNDS]*round.Round
 	validGuesses *dictionary.ValidGuesses
 }
 
 func NewGame(word string, validGuesses *dictionary.ValidGuesses) *Game {
 	return &Game{
 		reader:       bufio.NewReader(os.Stdin),
-		word:         NewWord(word),
+		word:         answer.NewWord(word),
 		validGuesses: validGuesses,
 		keyboard:     keyboard.NewKeyboard(),
 	}
 }
 
 func (g *Game) isWin() bool {
-	return g.word.isWin(g.currentRound().Guess)
+	return g.word.IsWin(g.currentRound().Guess)
 }
 
-// markUsedLetters updates which letters have been used on the letterRecord "keyboard"
-func (g *Game) markUsedLetters() {
-	guess := g.currentRound().Guess
-	eval := g.currentRound().Eval
-	for i := 0; i < round.WORD_LENGTH; i++ {
-		letterByte := guess[i]
-		if eval[i] == GREEN {
-			g.keyboard.MarkMatch(letterByte)
-		} else if eval[i] == YELLOW {
-			g.keyboard.MarkMatch(letterByte)
-		} else {
-			g.keyboard.MarkNoMatch(letterByte)
-		}
+// currentRound returns the current Round of the game, (or instantiates a new one when nil)
+func (g *Game) currentRound() *round.Round {
+	if g.rounds[g.round] == nil {
+		g.rounds[g.round] = round.NewRound()
 	}
+	return g.rounds[g.round]
 }
 
 func (g *Game) Play() error {
@@ -55,8 +47,8 @@ func (g *Game) Play() error {
 	g.printLetters()
 	g.printResponse()
 
-	for i := 0; i < ROUNDS; i++ {
-		err := g.readGuess(i+1, ROUNDS)
+	for i := 0; i < common.ROUNDS; i++ {
+		err := g.readGuess(i+1, common.ROUNDS)
 		if err != nil {
 			return err
 		}

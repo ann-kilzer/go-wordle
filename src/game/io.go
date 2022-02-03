@@ -4,16 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ann-kilzer/go-wordle/round"
+	"github.com/ann-kilzer/go-wordle/common"
 )
 
-func (g *Game) currentRound() *round.Round {
-	if g.rounds[g.round] == nil {
-		g.rounds[g.round] = round.NewRound()
-	}
-	return g.rounds[g.round]
-}
-
+// printLetters shows the current keyboard state
 func (g *Game) printLetters() {
 	fmt.Println(g.keyboard)
 }
@@ -27,11 +21,11 @@ func (g *Game) printResponse() {
 	for i := 0; i < len(eval); i++ {
 		letter := string(guess[i])
 		switch eval[i] {
-		case GREEN:
+		case common.GREEN:
 			fmt.Printf("[%v]", letter)
-		case YELLOW:
+		case common.YELLOW:
 			fmt.Printf("?%v?", strings.ToLower(letter))
-		case BLACK:
+		case common.BLACK:
 			fmt.Print("|_|")
 		}
 	}
@@ -51,8 +45,8 @@ func (g *Game) readGuess(r, rounds int) (err error) {
 		}
 		guess = strings.ToUpper(strings.TrimSpace(guess))
 
-		if len(guess) != round.WORD_LENGTH {
-			fmt.Printf("Invalid length. Please enter %v letters\n", round.WORD_LENGTH)
+		if len(guess) != common.WORD_LENGTH {
+			fmt.Printf("Invalid length. Please enter %v letters\n", common.WORD_LENGTH)
 		} else if g.validGuesses.Contains(guess) {
 			break
 		} else {
@@ -62,17 +56,5 @@ func (g *Game) readGuess(r, rounds int) (err error) {
 
 	g.currentRound().SetGuess(guess)
 
-	return nil
-}
-
-// evaluateRound must be called after the guess is read
-func (g *Game) evaluateRound() error {
-	// evaluate the guess
-	eval, err := g.word.evaluateGuess(g.currentRound().Guess)
-	if err != nil {
-		return err
-	}
-
-	g.currentRound().SetEval(eval)
 	return nil
 }
