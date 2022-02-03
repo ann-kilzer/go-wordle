@@ -7,9 +7,9 @@ import (
 
 	"github.com/ann-kilzer/go-wordle/dictionary"
 	"github.com/ann-kilzer/go-wordle/keyboard"
+	"github.com/ann-kilzer/go-wordle/round"
 )
 
-const WORD_LENGTH = 5
 const ROUNDS = 6
 
 type Game struct {
@@ -17,7 +17,7 @@ type Game struct {
 	reader       *bufio.Reader
 	keyboard     *keyboard.Keyboard
 	round        int
-	rounds       [ROUNDS]*Round
+	rounds       [ROUNDS]*round.Round
 	validGuesses *dictionary.ValidGuesses
 }
 
@@ -31,14 +31,14 @@ func NewGame(word string, validGuesses *dictionary.ValidGuesses) *Game {
 }
 
 func (g *Game) isWin() bool {
-	return g.word.isWin(g.currentRound().guess)
+	return g.word.isWin(g.currentRound().Guess)
 }
 
 // markUsedLetters updates which letters have been used on the letterRecord "keyboard"
 func (g *Game) markUsedLetters() {
-	guess := g.currentRound().guess
-	eval := g.currentRound().eval
-	for i := 0; i < WORD_LENGTH; i++ {
+	guess := g.currentRound().Guess
+	eval := g.currentRound().Eval
+	for i := 0; i < round.WORD_LENGTH; i++ {
 		letterByte := guess[i]
 		if eval[i] == GREEN {
 			g.keyboard.MarkMatch(letterByte)
