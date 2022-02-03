@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/ann-kilzer/go-wordle/common"
+	"github.com/ann-kilzer/go-wordle/snsOutput"
 )
 
 // printLetters shows the current keyboard state
@@ -57,4 +58,15 @@ func (g *Game) readGuess(r, rounds int) (err error) {
 	g.currentRound().SetGuess(guess)
 
 	return nil
+}
+
+// PrintSNSOutput prints the SNS formatted grid for sharing
+// after a completed game
+func (g *Game) PrintSNSOutput() {
+	var evals [common.ROUNDS]common.Evaluation
+	for r := 0; r < len(g.rounds); r++ {
+		evals[r] = g.rounds[r].Eval
+	}
+
+	fmt.Print(snsOutput.GenerateOutput(evals))
 }

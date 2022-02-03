@@ -24,6 +24,8 @@ func main() {
 
 	game := game.NewGame(dictionary.RandomWord(), validGuesses)
 	game.Play()
+
+	game.PrintSNSOutput()
 }
 
 func printIntro() {
