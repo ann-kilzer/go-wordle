@@ -6,7 +6,6 @@ import (
 
 const UPPER_A = 65
 const UPPER_Z = 96
-const LOWER_A = 97
 
 // style
 const UPPERCASE = 0

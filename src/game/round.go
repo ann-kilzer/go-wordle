@@ -6,7 +6,6 @@ import (
 )
 
 const UPPER_A = 65
-const LOWER_A = 97
 const EMPTY_GUESS = "     " // 5 blank spaces
 
 type Round struct {
