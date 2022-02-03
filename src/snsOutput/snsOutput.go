@@ -6,10 +6,10 @@ import (
 	"github.com/ann-kilzer/go-wordle/common"
 )
 
-func GenerateOutput(evals [common.ROUNDS]common.Evaluation) string {
+func GenerateOutput(evals []common.Evaluation) string {
 	var sb strings.Builder
 
-	for r := 0; r < common.ROUNDS; r++ {
+	for r := 0; r < len(evals); r++ {
 		e := evals[r]
 		for i := 0; i < len(e); i++ {
 			sb.WriteRune(colorCodeToRune(e[i]))

@@ -24,8 +24,8 @@ func (w Word) String() string {
 
 // EvaluateGuess determines what the game response should be
 // based on evaluating the user's guess against the Word
-func (w *Word) EvaluateGuess(guess string) ([common.WORD_LENGTH]int, error) {
-	var res [common.WORD_LENGTH]int
+func (w *Word) EvaluateGuess(guess string) (common.Evaluation, error) {
+	var res common.Evaluation
 	if len(guess) < common.WORD_LENGTH {
 		return res, fmt.Errorf("Invalid guess of length %d, expected %d", len(guess), common.WORD_LENGTH)
 	}

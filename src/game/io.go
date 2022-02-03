@@ -63,9 +63,12 @@ func (g *Game) readGuess(r, rounds int) (err error) {
 // PrintSNSOutput prints the SNS formatted grid for sharing
 // after a completed game
 func (g *Game) PrintSNSOutput() {
-	var evals [common.ROUNDS]common.Evaluation
+	var evals []common.Evaluation
 	for r := 0; r < len(g.rounds); r++ {
-		evals[r] = g.rounds[r].Eval
+		if g.rounds[r] == nil {
+			break
+		}
+		evals = append(evals, g.rounds[r].Eval)
 	}
 
 	fmt.Print(snsOutput.GenerateOutput(evals))

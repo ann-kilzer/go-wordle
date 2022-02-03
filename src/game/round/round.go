@@ -24,6 +24,6 @@ func (r *Round) SetGuess(guess string) {
 }
 
 // setEval records the evaluation in the round
-func (r *Round) SetEval(eval [WORD_LENGTH]int) {
+func (r *Round) SetEval(eval common.Evaluation) {
 	r.Eval = eval
 }
