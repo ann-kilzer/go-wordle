@@ -63,7 +63,7 @@ func (g *Game) Play() error {
 
 		g.printResponse()
 		if g.isWin() {
-			fmt.Println("Win!!!")
+			fmt.Println("Splendid!!!")
 			return nil
 		}
 
