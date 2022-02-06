@@ -15,7 +15,7 @@ Run
 ./go-wordle
 ```
 
-<img width="690" alt="src_—_-zsh_—_102×29" src="https://user-images.githubusercontent.com/4602369/152367034-ab624e65-2a1d-44ce-b1a0-73467ace7f73.png">
+<img width="620" alt="src_—_-zsh_—_102×29" src="https://user-images.githubusercontent.com/4602369/152685458-3ad21c29-9241-413e-8b7e-a738398bff8c.png">
 
 
 ## Custom dictionaries
